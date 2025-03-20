@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Solver</title>
+    <link rel="stylesheet" href="solve.css" />
+</head>
+<body>
+    <h1>Fill the spaces</h1>
+    <div class="sudoku-container">  
+        <div class="sudoku" id="grid"></div>
+
+        <div class="controls">
+            <button id="solveBtn">Solve</button>
+            <button id="solveCellBtn">Solve Cell</button>
+            <button id="resetBtn">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        let currentPuzzle = Array(9).fill().map(() => Array(9).fill(0));
+
+        function createGrid() {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+            for (let i = 0; i < 81; i++) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.classList.add('cell');
+                input.maxLength = 1;
+                input.dataset.index = i;
+                input.addEventListener('input', (e) => {
+                    const value = e.target.value.replace(/[^1-9]/g, '');
+                    e.target.value = value;
+                    const row = Math.floor(i / 9);
+                    const col = i % 9;
+                    currentPuzzle[row][col] = value ? parseInt(value) : 0;
+                });
+                grid.appendChild(input);
+            }
+        }
+
+        function solveSudoku(board) {
+            for (let i = 0; i < 9; i++) {
+                for (let j = 0; j < 9; j++) {
+                    if (board[i][j] === 0) {
+                        for (let num = 1; num <= 9; num++) {
+                            if (isValid(board, i, j, num)) {
+                                board[i][j] = num;
+                                if (solveSudoku(board)) return true;
+                                board[i][j] = 0;
+                            }
+                        }
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function isValid(board, row, col, num) {
+            for (let j = 0; j < 9; j++) {
+                if (board[row][j] === num) return false;
+            }
+            for (let i = 0; i < 9; i++) {
+                if (board[i][col] === num) return false;
+            }
+            const startRow = Math.floor(row / 3) * 3;
+            const startCol = Math.floor(col / 3) * 3;
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (board[startRow + i][startCol + j] === num) return false;
+                }
+            }
+            return true;
+        }
+
+        function updateGrid() {
+            document.querySelectorAll('.cell').forEach((input, index) => {
+                const row = Math.floor(index / 9);
+                const col = index % 9;
+                input.value = currentPuzzle[row][col] || '';
+            });
+        }
+
+        document.getElementById('solveBtn').addEventListener('click', () => {
+            const board = currentPuzzle.map(row => [...row]);
+            if (solveSudoku(board)) {
+                currentPuzzle = board;
+                updateGrid();
+            } else {
+                alert('No solution found!');
+            }
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            currentPuzzle = Array(9).fill().map(() => Array(9).fill(0));
+            updateGrid();
+        });
+
+        document.getElementById('solveCellBtn').addEventListener('click', () => {
+            for (let i = 0; i < 9; i++) {
+                for (let j = 0; j < 9; j++) {
+                    if (currentPuzzle[i][j] === 0) {
+                        for (let num = 1; num <= 9; num++) {
+                            if (isValid(currentPuzzle, i, j, num)) {
+                                currentPuzzle[i][j] = num;
+                                updateGrid();
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        createGrid();
+    </script>
+</body>
+</html>

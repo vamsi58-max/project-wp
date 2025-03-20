@@ -1,0 +1,103 @@
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+body {
+    background: linear-gradient(45deg, #ff9a9e, #fad0c4, #ffdde1, #a18cd1);
+    background-size: 300% 300%;
+    animation: gradientAnimation 10s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.sudoku-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+}
+
+.sudoku {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 2px;
+    border: 2px solid #000;
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+}
+
+.cell {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    border: 1px solid #666;
+    background: white;
+    transition: 0.3s;
+}
+
+.cell:focus {
+    background-color: #e6f3ff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 150, 255, 0.8);
+}
+
+.cell:nth-child(3n) {
+    border-right: 2px solid #000;
+}
+
+.cell:nth-child(n+19):nth-child(-n+27),
+.cell:nth-child(n+46):nth-child(-n+54),
+.cell:nth-child(n+73):nth-child(-n+81) {
+    border-bottom: 2px solid #000;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    transition: 0.3s;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.solution-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+}
