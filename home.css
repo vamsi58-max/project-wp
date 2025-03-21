@@ -67,7 +67,6 @@ body::after {
   background: linear-gradient(45deg, #b1f185, #9f5f54, #75cef8, #a58947);
   background-size: 200% auto;
   color: transparent;
-  -webkit-background-clip: text;
   background-clip: text;
   animation: gradientFlow 5s linear infinite;
   transition: transform 0.3s ease;
@@ -76,12 +75,6 @@ body::after {
 .navbar .logo a:hover {
   transform: rotate(3deg);
 }
-
-@keyframes gradientFlow {
-  0% { background-position: 0% center; }
-  100% { background-position: 200% center; }
-}
-
 .hero-section {
   display: flex;
   justify-content: space-evenly;
@@ -91,7 +84,6 @@ body::after {
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
-  z-index: 2;
 }
 
 .hero-section .hero {
@@ -126,26 +118,7 @@ body::after {
   color: #fff;
 }
 
-.hero h2:hover {
-  animation: neonGlow 1s infinite alternate;
-}
 
-.hero h2:hover::before {
-  animation: glitch1 2s infinite linear alternate-reverse;
-}
-
-.hero h2:hover::after {
-  animation: glitch2 2s infinite linear alternate-reverse;
-}
-
-@keyframes neonGlow {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff4b2b;
-  }
-  to {
-    text-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #ff4b2b;
-  }
-}
 
 @keyframes glitch1 {
   0% { clip: rect(0, 900px, 0, 0); transform: translate(0, 0); }
@@ -155,16 +128,6 @@ body::after {
   80% { clip: rect(0, 900px, 0, 0); transform: translate(0, 2px); }
   100% { clip: rect(10px, 900px, 50px, 0); transform: translate(0, 0); }
 }
-
-@keyframes glitch2 {
-  0% { clip: rect(0, 900px, 0, 0); transform: translate(0, 0); }
-  20% { clip: rect(15px, 900px, 60px, 0); transform: translate(2px, 2px); }
-  40% { clip: rect(0, 900px, 0, 0); transform: translate(-2px, -2px); }
-  60% { clip: rect(10px, 900px, 50px, 0); transform: translate(2px, 0); }
-  80% { clip: rect(0, 900px, 0, 0); transform: translate(0, -2px); }
-  100% { clip: rect(15px, 900px, 60px, 0); transform: translate(0, 0); }
-}
-
 .typewriter {
   overflow: hidden;
   border-right: 2px solid rgba(255,255,255,0.75);
@@ -172,16 +135,6 @@ body::after {
   animation: typing 3s steps(30, end) forwards, blinkCursor 0.75s step-end infinite;
   font-size: 1.2rem;
   margin-bottom: 20px;
-}
-
-@keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
-}
-
-@keyframes blinkCursor {
-  from, to { border-color: transparent; }
-  50% { border-color: rgba(255,255,255,0.75); }
 }
 
 .hero-section .buttons {
@@ -226,34 +179,4 @@ body::after {
   pointer-events: none;
 }
 
-.buttons a:active:after {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(2);
-  opacity: 1;
-  transition: 0s;
-}
 
-.buttons a::before,
-.buttons a::after {
-  content: '';
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  width: calc(100% + 20px);
-  height: calc(100% + 20px);
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  border-radius: 50%;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.buttons a:hover::before {
-  opacity: 1;
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
